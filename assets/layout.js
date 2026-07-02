@@ -4,7 +4,7 @@
    ============================================================ */
 
 const LOGO_LIGHT = 'https://campbellconsultancy.co/brand/Campbell_Consultancy_Logo_Pack/02_Horizontal/PNG_WhiteBG/horizontal-gradient-on-white-512px.png';
-const LOGO_DARK  = 'https://campbellconsultancy.co/brand/Campbell_Consultancy_Logo_Pack/02_Horizontal/PNG_NavyBG/horizontal-white-on-navy-512px.png';
+const LOGO_DARK  = 'https://campbellconsultancy.co/brand/Campbell_Consultancy_Logo_Pack/02_Horizontal/PNG_Transparent/horizontal-white-512px.png';
 const SESSION_KEY = 'cc_portal_auth';
 const PORTAL_ROOT = '/';
 
