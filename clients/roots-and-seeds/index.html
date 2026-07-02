@@ -24,7 +24,7 @@
   <div class="hero-meta">
     <div class="hero-stat"><div class="n">1</div><div class="l">Report</div></div>
     <div class="hero-stat"><div class="n">1</div><div class="l">Proposal</div></div>
-    <div class="hero-stat"><div class="n">0</div><div class="l">Agreements</div></div>
+    <div class="hero-stat"><div class="n" id="rs-agreements-count">-</div><div class="l">Agreements</div></div>
   </div>
 </div>
 
@@ -76,10 +76,7 @@
     <h2>Agreements</h2>
   </div>
 
-  <div class="empty-state">
-    <div class="empty-icon">✍️</div>
-    <p>No agreements on file yet.</p>
-  </div>
+  <div id="rs-agreements-list"></div>
 
 </main>
 
@@ -91,6 +88,9 @@
     crumbs: [{ label: 'Roots &amp; Seeds' }]
   });
   injectFooter();
+  // Load agreements (signed only for client portal)
+  updateAgreementCount('rs-agreements-count', 'roots-and-seeds', false);
+  renderAgreementsList('rs-agreements-list', 'roots-and-seeds', false);
 </script>
 </body>
 </html>

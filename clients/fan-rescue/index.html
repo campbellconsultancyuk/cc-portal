@@ -24,7 +24,7 @@
   <div class="hero-meta">
     <div class="hero-stat"><div class="n">2</div><div class="l">Reports</div></div>
     <div class="hero-stat"><div class="n">1</div><div class="l">Proposal</div></div>
-    <div class="hero-stat"><div class="n">0</div><div class="l">Agreements</div></div>
+    <div class="hero-stat"><div class="n" id="fr-agreements-count">-</div><div class="l">Agreements</div></div>
   </div>
 </div>
 
@@ -86,10 +86,7 @@
     <h2>Agreements</h2>
   </div>
 
-  <div class="empty-state">
-    <div class="empty-icon">✍️</div>
-    <p>No agreements on file yet.</p>
-  </div>
+  <div id="fr-agreements-list"></div>
 
 </main>
 
@@ -101,6 +98,9 @@
     crumbs: [{ label: 'Fan Rescue' }]
   });
   injectFooter();
+  // Load agreements (signed only for client portal)
+  updateAgreementCount('fr-agreements-count', 'fan-rescue', false);
+  renderAgreementsList('fr-agreements-list', 'fan-rescue', false);
 </script>
 </body>
 </html>
