@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Group Command Centre — Strategy &amp; Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm 16mm;
+    @bottom-left {
+      content: "Campbell Consultancy · Operational AI & Automation";
+      font-family: "Inter", sans-serif; font-size: 6.5pt; color: #6B7A98;
+      letter-spacing: 0.06em;
+    }
+    @bottom-right {
+      content: "Confidential · Pre-proposal · " counter(page) " / " counter(pages);
+      font-family: "Inter", sans-serif; font-size: 6.5pt; color: #6B7A98;
+      letter-spacing: 0.06em;
+    }
+  }
+  :root {
+    --ink: #132450;
+    --paper: #FAFBFC;
+    --accent: #2E8B7E;
+    --slate: #6B7A98;
+    --green: #3F7A5C;
+    --amber: #B8752F;
+    --line: rgba(19, 36, 80, 0.12);
+    --panel: #F4F6F9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 9.5pt; line-height: 1.55; color: var(--ink);
+    background: #fff;
+  }
+  /* ---------- utility ---------- */
+  .mono { font-family: "Inter", sans-serif; }
+  .eyebrow {
+    font-family: "Inter", sans-serif; font-weight: 600;
+    font-size: 7pt; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 6pt;
+  }
+  .section { page-break-before: always; }
+  .section-head {
+    border-bottom: 1.5pt solid var(--ink);
+    padding-bottom: 8pt; margin-bottom: 14pt;
+  }
+  .section-head h2 {
+    font-family: "Inter", sans-serif;
+    font-weight: 600; font-size: 19pt; letter-spacing: -0.01em;
+  }
+  .section-head .sec-no {
+    font-family: "Inter", sans-serif;
+    font-size: 8pt; color: var(--slate); letter-spacing: 0.14em;
+    display: block; margin-bottom: 4pt;
+  }
+  p { margin-bottom: 8pt; }
+  p.lede {
+    font-family: "Inter", sans-serif; font-style: italic; font-weight: 500;
+    font-size: 11.5pt; line-height: 1.6; color: var(--ink);
+    margin-bottom: 12pt;
+  }
+  .small { font-size: 8pt; color: var(--slate); }
+  /* ---------- status chips ---------- */
+  .chip {
+    display: inline-block; font-family: "Inter", sans-serif;
+    font-size: 6.5pt; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 1.5pt 5pt; border-radius: 2pt; vertical-align: middle;
+  }
+  .chip.live { background: #E4EEE8; color: var(--green); border: 0.5pt solid var(--green); }
+  .chip.pending { background: #F5EADB; color: var(--amber); border: 0.5pt solid var(--amber); }
+  .chip.phase0 { background: var(--ink); color: #fff; border: 0.5pt solid var(--ink); }
+  /* ---------- cover ---------- */
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover-top { }
+  .logo-ph {
+    height: 34pt; width: auto; display: block; margin-bottom: 40pt;
+  }
+  .cover h1 {
+    font-family: "Inter", sans-serif; font-weight: 600;
+    font-size: 30pt; line-height: 1.15; letter-spacing: -0.015em;
+    margin-bottom: 14pt; max-width: 150mm;
+  }
+  .cover .sub {
+    font-size: 11pt; color: var(--slate); max-width: 130mm; line-height: 1.6;
+  }
+  .cover-meta {
+    border-top: 1.5pt solid var(--ink); padding-top: 10pt;
+    display: flex; justify-content: space-between;
+    font-family: "Inter", sans-serif; font-size: 7.5pt;
+    color: var(--slate); letter-spacing: 0.06em;
+  }
+  .cover-meta div { line-height: 1.9; }
+  .cover-meta .k { color: var(--accent); text-transform: uppercase; font-size: 6.5pt; letter-spacing: 0.16em; }
+  /* ---------- contents rail ---------- */
+  .toc { margin-top: 26pt; }
+  .toc-row {
+    display: flex; align-items: baseline; gap: 8pt;
+    padding: 5pt 0; border-bottom: 0.5pt solid var(--line);
+    font-size: 9.5pt;
+  }
+  .toc-row .n { font-family: "Inter", sans-serif; font-size: 7.5pt; color: var(--accent); width: 22pt; }
+  .toc-row .t { font-weight: 500; }
+  .toc-row .d { color: var(--slate); font-size: 8pt; margin-left: auto; text-align: right; }
+  /* ---------- panels ---------- */
+  .panel {
+    background: var(--panel); border-left: 2.5pt solid var(--accent);
+    padding: 9pt 11pt; margin: 10pt 0; page-break-inside: avoid;
+  }
+  .panel .p-label {
+    font-family: "Inter", sans-serif; font-size: 6.5pt;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 4pt;
+  }
+  .panel p:last-child { margin-bottom: 0; }
+  .panel.ink { border-left-color: var(--ink); }
+  .panel.ink .p-label { color: var(--ink); }
+  .panel.green { border-left-color: var(--green); }
+  .panel.green .p-label { color: var(--green); }
+  /* ---------- tables ---------- */
+  table { width: 100%; border-collapse: collapse; margin: 10pt 0; page-break-inside: avoid; }
+  th {
+    font-family: "Inter", sans-serif; font-size: 6.5pt;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate);
+    text-align: left; padding: 4pt 6pt; border-bottom: 1pt solid var(--ink);
+  }
+  td {
+    font-size: 8.5pt; padding: 5pt 6pt; border-bottom: 0.5pt solid var(--line);
+    vertical-align: top;
+  }
+  td.strong { font-weight: 600; }
+  /* ---------- architecture diagram ---------- */
+  .arch { margin: 12pt 0; page-break-inside: avoid; }
+  .arch-row { display: flex; gap: 6pt; margin-bottom: 0; }
+  .arch-col { flex: 1; }
+  .node {
+    border: 1pt solid var(--ink); border-radius: 3pt;
+    padding: 6pt 7pt; background: #fff; margin-bottom: 5pt;
+  }
+  .node .n-title { font-weight: 600; font-size: 8.5pt; }
+  .node .n-sub { font-family: "Inter", sans-serif; font-size: 6.5pt; color: var(--slate); margin-top: 1pt; }
+  .node.src { border-color: var(--green); background: #F3F8F5; }
+  .node.pend { border-color: var(--amber); background: #FAF4EA; border-style: dashed; }
+  .node.ghost { border-style: dashed; border-color: var(--slate); background: var(--panel); }
+  .entity-head {
+    font-family: "Inter", sans-serif; font-size: 7pt;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4pt 7pt; margin-bottom: 6pt; border-radius: 2pt;
+    background: var(--ink); color: #fff; text-align: center;
+  }
+  .entity-head.ghost { background: var(--panel); color: var(--slate); border: 1pt dashed var(--slate); }
+  .layer {
+    border: 1.25pt solid var(--ink); border-radius: 3pt;
+    padding: 8pt 12pt; margin: 8pt 0; background: #fff;
+    page-break-inside: avoid;
+  }
+  .layer .l-title { font-weight: 600; font-size: 10pt; }
+  .layer .l-sub { font-family: "Inter", sans-serif; font-size: 7pt; color: var(--slate); margin-top: 2pt; line-height: 1.6; }
+  .layer.hub { background: var(--ink); color: #fff; }
+  .layer.hub .l-sub { color: #B9C2D4; }
+  .flow-arrow {
+    text-align: center; font-family: "Inter", sans-serif;
+    font-size: 7pt; color: var(--slate); padding: 2pt 0;
+  }
+  /* ---------- two-lane agents ---------- */
+  .lanes { display: flex; gap: 8pt; margin: 10pt 0; page-break-inside: avoid; }
+  .lane { flex: 1; border: 0.75pt solid var(--line); border-top: 2.5pt solid var(--ink); padding: 9pt 11pt; background: #fff; }
+  .lane.ext { border-top-color: var(--accent); }
+  .lane h4 { font-size: 9.5pt; margin-bottom: 5pt; }
+  .lane ul { margin: 0 0 0 11pt; }
+  .lane li { font-size: 8.5pt; margin-bottom: 4pt; }
+  ul.plain { margin: 6pt 0 10pt 12pt; }
+  ul.plain li { margin-bottom: 5pt; }
+  h3 {
+    font-family: "Inter", sans-serif; font-weight: 600;
+    font-size: 12.5pt; margin: 14pt 0 7pt 0;
+  }
+  /* ---------- schema diagram ---------- */
+  .schema-grid { display: flex; flex-wrap: wrap; gap: 7pt; margin: 10pt 0; }
+  .stable {
+    width: 31%; flex-grow: 1; border: 1pt solid var(--ink); border-radius: 3pt;
+    background: #fff; page-break-inside: avoid; overflow: hidden;
+  }
+  .stable .st-head {
+    font-family: "Inter", sans-serif; font-size: 7pt; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4pt 7pt; background: var(--ink); color: #fff;
+  }
+  .stable.hubt .st-head { background: var(--green); }
+  .stable .st-row {
+    display: flex; justify-content: space-between;
+    padding: 2.5pt 7pt; border-bottom: 0.5pt solid var(--line);
+    font-family: "Inter", sans-serif; font-size: 6.5pt;
+  }
+  .stable .st-row:last-child { border-bottom: none; }
+  .stable .st-row .f { color: var(--ink); }
+  .stable .st-row .ty { color: var(--slate); }
+  .stable .st-row.key .f { font-weight: 700; }
+  .stable .st-row.key .ty { color: var(--accent); font-weight: 600; }
+  /* ---------- scenario flows ---------- */
+  .scenario { margin: 0 0 11pt 0; page-break-inside: avoid; }
+  .sc-title {
+    font-family: "Inter", sans-serif; font-size: 7.5pt; font-weight: 600;
+    letter-spacing: 0.08em; color: var(--ink);
+    border-bottom: 0.75pt solid var(--ink); padding-bottom: 3pt; margin-bottom: 6pt;
+  }
+  .sc-title .sc-no { color: var(--accent); margin-right: 6pt; }
+  .sc-flow { display: flex; align-items: stretch; gap: 0; }
+  .sc-node {
+    flex: 1; border: 1pt solid var(--ink); border-radius: 3pt;
+    padding: 5pt 7pt; background: #fff;
+  }
+  .sc-node .n-title { font-weight: 600; font-size: 8pt; }
+  .sc-node .n-sub { font-family: "Inter", sans-serif; font-size: 6pt; color: var(--slate); margin-top: 1pt; line-height: 1.5; }
+  .sc-node.src { border-color: var(--green); background: #F3F8F5; }
+  .sc-node.pend { border-color: var(--amber); background: #FAF4EA; border-style: dashed; }
+  .sc-node.sched { border-color: var(--slate); background: var(--panel); }
+  .sc-node.hubn { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .sc-node.hubn .n-sub { color: #B9C2D4; }
+  .sc-link {
+    width: 44pt; display: flex; align-items: center; justify-content: center;
+    font-family: "Inter", sans-serif; font-size: 5.5pt; color: var(--slate);
+    letter-spacing: 0.04em;
+  }
+  .sc-fields {
+    font-family: "Inter", sans-serif; font-size: 6pt; color: var(--slate);
+    background: var(--panel); padding: 3.5pt 7pt; margin-top: 4pt; border-radius: 2pt;
+    line-height: 1.5;
+  }
+  .sc-fields b { color: var(--ink); font-weight: 600; }
+  .sc-note {
+    font-family: "Inter", sans-serif; font-size: 6pt;
+    padding: 3.5pt 7pt; margin-top: 3pt; border-radius: 2pt; line-height: 1.5;
+  }
+  .sc-note.ok { background: #E4EEE8; color: var(--green); }
+  .sc-note.pd { background: #F5EADB; color: var(--amber); }
+  .roi-strip { display: flex; gap: 8pt; margin: 12pt 0; page-break-inside: avoid; }
+  .roi-cell { flex: 1; border: 0.75pt solid var(--line); padding: 9pt 10pt; }
+  .roi-cell .r-k { font-family: "Inter", sans-serif; font-size: 6.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-bottom: 4pt; }
+  .roi-cell .r-v { font-family: "Inter", sans-serif; font-weight: 600; font-size: 14pt; }
+  .roi-cell .r-s { font-size: 7.5pt; color: var(--slate); margin-top: 2pt; line-height: 1.45; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<div class="cover">
+  <div class="cover-top">
+    <img class="logo-ph" src="https://campbellconsultancy.co/brand/Campbell_Consultancy_Logo_Pack/02_Horizontal/PNG_WhiteBG/horizontal-gradient-on-white-512px.png" alt="Campbell Consultancy">
+    <div class="eyebrow">Strategy &amp; Architecture · Pre-proposal</div>
+    <h1>Group Command Centre</h1>
+    <p class="sub">A strategy for connecting the group's existing systems into a single real-time management platform, designed so that adding the next company is an administrative non-event.</p>
+
+    <div class="toc">
+      <div class="toc-row"><span class="n">01</span><span class="t">The problem</span><span class="d">Why the group's growth currently scales its admin</span></div>
+      <div class="toc-row"><span class="n">02</span><span class="t">The solution</span><span class="d">Build the framework once, plug companies in</span></div>
+      <div class="toc-row"><span class="n">03</span><span class="t">The architecture</span><span class="d">Current state, and Company Zero</span></div>
+      <div class="toc-row"><span class="n">04</span><span class="t">Beyond the dashboard</span><span class="d">WhatsApp operations, AI agents, digital presence</span></div>
+      <div class="toc-row"><span class="n">05</span><span class="t">Value &amp; return</span><span class="d">Where the time and cost actually come back</span></div>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <div>
+      <span class="k">Prepared for</span><br>
+      Cian Flood · Group Director<br>
+      Extechnology Europe · Arden Environmental · J Younger Storage
+    </div>
+    <div>
+      <span class="k">Prepared by</span><br>
+      Campbell Consultancy<br>
+      campbellconsultancy.co
+    </div>
+    <div>
+      <span class="k">Status</span><br>
+      Working strategy document<br>
+      July 2026 · v1.0
+    </div>
+  </div>
+</div>
+
+<!-- ================= 01 PROBLEM ================= -->
+<div class="section">
+  <div class="section-head">
+    <span class="sec-no">SECTION 01</span>
+    <h2>The problem</h2>
+  </div>
+
+  <p class="lede">Each business in the group runs well on its own systems. The problem is not the software. The problem is that the group's only integration layer is Cian.</p>
+
+  <p>Sales enquiries, quotations, invoices, management accounts, cash positions and operational KPIs each live in the right system for the job: OnePageCRM and Xero at Extechnology, Loc8 and Xero at Arden, Sage Business Cloud and spreadsheets at J Younger, with Microsoft 365 and banking across all three. Every one of those platforms does its own job reasonably well.</p>
+
+  <p>What none of them does is talk to the others. Information moves between systems by hand, reports are compiled by hand, and the live picture of the group exists in one place only: assembled each month, from memory and spreadsheets, by the Group Director. That has three consequences:</p>
+
+  <ul class="plain">
+    <li><strong>Time is spent joining, not deciding.</strong> Hours each month go into pulling data together before any decision can be made on it. The current spend on admin and operational support sits at £1,500 to £3,000 per month before that time cost is counted.</li>
+    <li><strong>The picture is always historical.</strong> By the time the group view is assembled it describes last month, not this morning. Cash, pipeline and job status questions get answered by logging into three systems, not one.</li>
+    <li><strong>Growth makes it worse, mechanically.</strong> Every additional company, employee or process adds to the joining work. On the current model, acquiring a fourth business means acquiring its admin as well. That is the exact trend the group wants reversed.</li>
+  </ul>
+
+  <div class="panel ink">
+    <div class="p-label">The design brief, in one line</div>
+    <p>Not "automate what the group does today", but "design the operating framework the group would build from scratch, knowing where it wants to be in five years". This document is a response to that brief.</p>
+  </div>
+</div>
+
+<!-- ================= 02 SOLUTION ================= -->
+<div class="section">
+  <div class="section-head">
+    <span class="sec-no">SECTION 02</span>
+    <h2>The solution</h2>
+  </div>
+
+  <p class="lede">Build the framework once. Every company, present or future, plugs into the same three-layer structure: automated pipelines, one central database, one command centre on top.</p>
+
+  <p>The approach keeps every system the group has already invested in. Nothing is replaced. Instead, an automation layer catches events from each platform as they happen, translates them into one consistent format, tags every record with the company it belongs to, and writes it to a single central database. The Command Centre reads from that database in real time. One URL, opened each morning, showing the whole group: live revenue, cash balances, debtors, pipeline and operational KPIs, per company and in aggregate.</p>
+
+  <h3>Deliberately phased around what is proven today</h3>
+
+  <p>Platform research across the group is complete, and it splits the build cleanly:</p>
+
+  <ul class="plain">
+    <li><strong>Extechnology Europe and Arden Environmental go first.</strong> Every core platform at these two companies has a confirmed, workable integration route today. Phase 1 builds their pipelines and stands up the Command Centre with two live companies in it.</li>
+    <li><strong>J Younger Storage is deliberately held back, and that is a feature.</strong> Two genuine open questions remain there: stock records have historically not been kept electronically, and the volume-based billing model means stock data is the foundation of any meaningful KPI for that business. Rather than guess, J Younger becomes the live demonstration of the architecture's core claim: that a new company drops into the existing framework without rebuilding anything. Section 03 shows exactly how.</li>
+  </ul>
+
+  <div class="panel">
+    <div class="p-label">Why this sequencing matters</div>
+    <p>Most integration projects fail by attempting everything at once and stalling on the hardest data source. This plan proves the framework on the two companies that are ready, then onboards the third using the same repeatable playbook that would onboard an acquisition. J Younger is not deferred. It is the first test of the thing the group actually wants to buy: scalability.</p>
+  </div>
+
+  <h3>What "done" looks like</h3>
+  <ul class="plain">
+    <li>One live dashboard covering the group, updating in near real time, no manual compilation.</li>
+    <li>A nightly AI-written digest summarising each company's day: cash movement, invoices raised and paid, jobs completed, pipeline changes.</li>
+    <li>Routine information movement between systems happening automatically, with the human touch kept where it belongs: customer relationships, judgement calls and exceptions.</li>
+    <li>A documented, repeatable onboarding playbook, proven on J Younger, ready for company four.</li>
+  </ul>
+</div>
+
+<!-- ================= 03 ARCHITECTURE ================= -->
+<div class="section">
+  <div class="section-head">
+    <span class="sec-no">SECTION 03</span>
+    <h2>The architecture</h2>
+  </div>
+
+  <p class="lede">Three layers. Source systems stay exactly as they are. Everything below them is built once and shared by every company in the group.</p>
+
+  <div class="arch">
+    <div class="arch-row">
+      <div class="arch-col">
+        <div class="entity-head">Extechnology Europe</div>
+        <div class="node src"><div class="n-title">OnePageCRM</div><div class="n-sub">pipeline · quotes · webhooks</div></div>
+        <div class="node src"><div class="n-title">Xero</div><div class="n-sub">invoices · payments</div></div>
+        <div class="node src"><div class="n-title">Revolut Business</div><div class="n-sub">cash · balances · live</div></div>
+        <div class="node src"><div class="n-title">Microsoft 365</div><div class="n-sub">docs · comms</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="entity-head">Arden Environmental</div>
+        <div class="node pend"><div class="n-title">Loc8</div><div class="n-sub">jobs · assets · OData route, credentials pending</div></div>
+        <div class="node src"><div class="n-title">Xero</div><div class="n-sub">invoices · payments</div></div>
+        <div class="node src"><div class="n-title">Revolut Business</div><div class="n-sub">cash · balances · on migration</div></div>
+        <div class="node src"><div class="n-title">Microsoft 365</div><div class="n-sub">docs · comms</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="entity-head ghost">J Younger Storage · Phase 0</div>
+        <div class="node ghost"><div class="n-title">Sage Business Cloud</div><div class="n-sub">confirmed · connector ready</div></div>
+        <div class="node ghost"><div class="n-title">Stock records</div><div class="n-sub">format under review · Phase 0</div></div>
+        <div class="node ghost"><div class="n-title">Transport records</div><div class="n-sub">Access database · Phase 0</div></div>
+        <div class="node ghost"><div class="n-title">Microsoft 365</div><div class="n-sub">docs · comms</div></div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">▼ &nbsp; events, webhooks and scheduled polling &nbsp; ▼</div>
+
+    <div class="layer hub">
+      <div class="l-title">Automation layer — Make.com</div>
+      <div class="l-sub">catches events · normalises to one schema · stamps every record with its company ID · handles errors and retries · one scenario template per platform, duplicated per company</div>
+    </div>
+
+    <div class="flow-arrow">▼ &nbsp; company-tagged rows &nbsp; ▼</div>
+
+    <div class="layer">
+      <div class="l-title">Central database — Supabase</div>
+      <div class="l-sub">companies · pipeline · jobs · invoices · cash snapshots · KPI snapshots — every table carries the company ID · row-level security · real-time subscriptions</div>
+    </div>
+
+    <div class="flow-arrow">▼ &nbsp; real-time read &nbsp; ▼</div>
+
+    <div class="layer">
+      <div class="l-title">Command Centre — web application</div>
+      <div class="l-sub">live group view · per-company drill-down · dynamic company selector · nightly AI digest · nothing hard-coded to any one business</div>
+    </div>
+  </div>
+
+  <p class="small">Green: integration route confirmed and buildable now. Amber (dashed): route identified, final confirmation in progress. Grey (dashed): Phase 0, scoped after the stock-record review completes.</p>
+
+  <h3>Platform status, stated plainly</h3>
+  <table>
+    <tr><th>Platform</th><th>Company</th><th>Status</th><th>Position</th></tr>
+    <tr><td class="strong">OnePageCRM</td><td>Extechnology</td><td><span class="chip live">Confirmed</span></td><td>Full integration route verified. Buildable now.</td></tr>
+    <tr><td class="strong">Xero</td><td>All companies</td><td><span class="chip live">Confirmed</span></td><td>Multi-company support verified, one connection per company. Buildable now.</td></tr>
+    <tr><td class="strong">Revolut Business</td><td>Extechnology, Arden</td><td><span class="chip live">Confirmed</span></td><td>Live transaction and balance feeds verified. Buildable now.</td></tr>
+    <tr><td class="strong">Microsoft 365</td><td>All companies</td><td><span class="chip live">Confirmed</span></td><td>Native support throughout. Buildable now.</td></tr>
+    <tr><td class="strong">Sage Business Cloud</td><td>J Younger</td><td><span class="chip live">Confirmed</span></td><td>Version confirmed as Business Cloud. Integration route ready for when J Younger onboards.</td></tr>
+    <tr><td class="strong">Loc8</td><td>Arden</td><td><span class="chip pending">In progress</span></td><td>The account's version does not expose a public API. Loc8 has offered an OData connector, which is a workable route into the automation layer. Credentials and a short validation exercise are the remaining steps, and this is scoped as the first task of the Arden build.</td></tr>
+    <tr><td class="strong">Stock &amp; transport data</td><td>J Younger</td><td><span class="chip phase0">Phase 0</span></td><td>No electronic stock record exists today, and billing is volume-based, so stock data is the foundation of J Younger's KPIs. A short, structured discovery piece designs the record format first. Building KPIs on top of guessed data would be worse than waiting.</td></tr>
+  </table>
+
+  <h3 style="page-break-before: always;">Inside the central database</h3>
+
+  <p>Six tables carry the entire group. Every table except the companies register itself carries <span class="mono">entity_id</span>, the field that ties each record to its company. That one design decision is what makes the whole framework company-agnostic: data for a new company lands in the same tables, distinguished only by its tag.</p>
+
+  <div class="schema-grid">
+    <div class="stable hubt">
+      <div class="st-head">entities · companies register</div>
+      <div class="st-row key"><span class="f">id</span><span class="ty">uuid · PK</span></div>
+      <div class="st-row"><span class="f">name</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">slug</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">type</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">status</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">created_at</span><span class="ty">timestamp</span></div>
+    </div>
+    <div class="stable">
+      <div class="st-head">pipeline_events · CRM</div>
+      <div class="st-row key"><span class="f">entity_id</span><span class="ty">uuid · FK</span></div>
+      <div class="st-row"><span class="f">source_system</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">event_type</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">contact · company</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">value · stage · status</span><span class="ty">mixed</span></div>
+      <div class="st-row"><span class="f">event_at</span><span class="ty">timestamp</span></div>
+    </div>
+    <div class="stable">
+      <div class="st-head">jobs · field service</div>
+      <div class="st-row key"><span class="f">entity_id</span><span class="ty">uuid · FK</span></div>
+      <div class="st-row"><span class="f">job_ref · job_type</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">customer · engineer</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">status</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">scheduled · completed</span><span class="ty">timestamp</span></div>
+      <div class="st-row"><span class="f">value</span><span class="ty">numeric</span></div>
+    </div>
+    <div class="stable">
+      <div class="st-head">invoices · all companies</div>
+      <div class="st-row key"><span class="f">entity_id</span><span class="ty">uuid · FK</span></div>
+      <div class="st-row"><span class="f">invoice_ref · contact</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">gross · net · tax</span><span class="ty">numeric</span></div>
+      <div class="st-row"><span class="f">status</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">issued · due · paid</span><span class="ty">timestamp</span></div>
+    </div>
+    <div class="stable">
+      <div class="st-head">cash_snapshots · banking</div>
+      <div class="st-row key"><span class="f">entity_id</span><span class="ty">uuid · FK</span></div>
+      <div class="st-row"><span class="f">source_system</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">account_name</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">currency · balance</span><span class="ty">mixed</span></div>
+      <div class="st-row"><span class="f">snapshot_at</span><span class="ty">timestamp</span></div>
+    </div>
+    <div class="stable">
+      <div class="st-head">kpi_snapshots · nightly</div>
+      <div class="st-row key"><span class="f">entity_id</span><span class="ty">uuid · FK</span></div>
+      <div class="st-row"><span class="f">period</span><span class="ty">string</span></div>
+      <div class="st-row"><span class="f">revenue · outstanding</span><span class="ty">numeric</span></div>
+      <div class="st-row"><span class="f">jobs_completed · deals_won</span><span class="ty">numeric</span></div>
+      <div class="st-row"><span class="f">cash_balance</span><span class="ty">numeric</span></div>
+      <div class="st-row"><span class="f">generated_at</span><span class="ty">timestamp</span></div>
+    </div>
+  </div>
+
+  <p class="small">Row-level security enforced throughout. Onboarding a company adds one row to the companies register; every downstream table picks it up automatically. No schema changes, ever.</p>
+
+  <h3 style="page-break-before: always;">The automation scenarios</h3>
+
+  <p>Six pipelines carry data from the source systems into the central database. Each follows the same three-step pattern: the source system raises an event, the automation layer translates and tags it, the database stores it. Green sources are buildable now. The Loc8 route is amber pending credentials. The Sage pipeline is confirmed and waits only for J Younger's onboarding.</p>
+
+  <div class="scenario">
+    <div class="sc-title"><span class="sc-no">S1</span>EXTECHNOLOGY · ONEPAGECRM → DATABASE</div>
+    <div class="sc-flow">
+      <div class="sc-node src"><div class="n-title">OnePageCRM</div><div class="n-sub">deal status changes</div></div>
+      <div class="sc-link">webhook →</div>
+      <div class="sc-node hubn"><div class="n-title">Make.com</div><div class="n-sub">parse · tag company: extechnology</div></div>
+      <div class="sc-link">write →</div>
+      <div class="sc-node"><div class="n-title">Database</div><div class="n-sub">pipeline_events · upsert</div></div>
+    </div>
+    <div class="sc-fields"><b>Fields:</b> contact · company · deal value · stage · status · event time · company tag</div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-title"><span class="sc-no">S2</span>XERO → DATABASE · ONE TEMPLATE, ONE INSTANCE PER COMPANY</div>
+    <div class="sc-flow">
+      <div class="sc-node src"><div class="n-title">Xero</div><div class="n-sub">new / updated invoice</div></div>
+      <div class="sc-link">polling →</div>
+      <div class="sc-node hubn"><div class="n-title">Make.com</div><div class="n-sub">normalise · tag company</div></div>
+      <div class="sc-link">write →</div>
+      <div class="sc-node"><div class="n-title">Database</div><div class="n-sub">invoices · upsert</div></div>
+    </div>
+    <div class="sc-fields"><b>Fields:</b> invoice ref · contact · gross · net · tax · status · issued · due · paid · company tag</div>
+    <div class="sc-note ok">Two live instances at launch (Extechnology, Arden), separate Xero credentials per company. Each future company is another copy of the same template.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-title"><span class="sc-no">S3</span>REVOLUT BUSINESS → DATABASE · CASH VISIBILITY</div>
+    <div class="sc-flow">
+      <div class="sc-node src"><div class="n-title">Revolut Business</div><div class="n-sub">transaction webhook</div></div>
+      <div class="sc-link">webhook →</div>
+      <div class="sc-node hubn"><div class="n-title">Make.com</div><div class="n-sub">pull balance · tag company</div></div>
+      <div class="sc-link">write →</div>
+      <div class="sc-node"><div class="n-title">Database</div><div class="n-sub">cash_snapshots · insert</div></div>
+    </div>
+    <div class="sc-fields"><b>Fields:</b> account name · currency · balance · snapshot time · company tag · source: revolut</div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-title"><span class="sc-no">S4</span>ARDEN · LOC8 → DATABASE · JOB DATA</div>
+    <div class="sc-flow">
+      <div class="sc-node pend"><div class="n-title">Loc8</div><div class="n-sub">job events via OData connector</div></div>
+      <div class="sc-link">OData →</div>
+      <div class="sc-node hubn"><div class="n-title">Make.com</div><div class="n-sub">parse job · tag company: arden</div></div>
+      <div class="sc-link">write →</div>
+      <div class="sc-node"><div class="n-title">Database</div><div class="n-sub">jobs · upsert</div></div>
+    </div>
+    <div class="sc-fields"><b>Fields:</b> job ref · type · customer · engineer · status · scheduled · completed · company tag</div>
+    <div class="sc-note pd">The account's Loc8 version has no public API. Loc8 has offered an OData connector, which the automation layer can consume directly. Credentials and validation are the first task of the Arden build.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-title"><span class="sc-no">S5</span>J YOUNGER · SAGE BUSINESS CLOUD → DATABASE</div>
+    <div class="sc-flow">
+      <div class="sc-node sched"><div class="n-title">Sage Business Cloud</div><div class="n-sub">invoice / payment</div></div>
+      <div class="sc-link">polling →</div>
+      <div class="sc-node hubn"><div class="n-title">Make.com</div><div class="n-sub">normalise · tag company: j_younger</div></div>
+      <div class="sc-link">write →</div>
+      <div class="sc-node"><div class="n-title">Database</div><div class="n-sub">invoices · upsert</div></div>
+    </div>
+    <div class="sc-fields"><b>Fields:</b> invoice ref · contact · gross · net · tax · status · issued · due · paid · company tag</div>
+    <div class="sc-note ok">Version confirmed as Business Cloud, integration route verified. This pipeline is ready and activates when J Younger onboards after its Phase 0 stock-record work.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-title"><span class="sc-no">S6</span>NIGHTLY KPI ROLLUP · SCHEDULED · ALL COMPANIES</div>
+    <div class="sc-flow">
+      <div class="sc-node sched"><div class="n-title">Scheduler</div><div class="n-sub">nightly trigger</div></div>
+      <div class="sc-link">run →</div>
+      <div class="sc-node hubn"><div class="n-title">Make.com + AI</div><div class="n-sub">aggregate · generate digest</div></div>
+      <div class="sc-link">write →</div>
+      <div class="sc-node"><div class="n-title">Database</div><div class="n-sub">kpi_snapshots · insert</div></div>
+    </div>
+    <div class="sc-fields"><b>Fields:</b> company tag · period · revenue · outstanding · jobs completed · deals won · cash balance</div>
+  </div>
+
+  <h3 style="page-break-before: always;">Company Zero: the five-year test</h3>
+
+  <p>The brief was to design as if starting from scratch, knowing where the group wants to be in five years. The honest test of that is not the first three companies. It is company four, the one that does not exist yet. The architecture is designed so that onboarding any new company, whether J Younger this year or an acquisition in year three, is the same four-step routine:</p>
+
+  <table>
+    <tr><th>Step</th><th>Action</th><th>What changes</th></tr>
+    <tr><td class="strong">1</td><td>Add one row to the companies table</td><td>Database schema: unchanged</td></tr>
+    <tr><td class="strong">2</td><td>Duplicate the relevant pipeline templates</td><td>Automation layer: copies, not rebuilds</td></tr>
+    <tr><td class="strong">3</td><td>Point the copies at the new company's credentials</td><td>Source systems: untouched</td></tr>
+    <tr><td class="strong">4</td><td>The Command Centre picks the company up automatically</td><td>Frontend: zero changes</td></tr>
+  </table>
+
+  <div class="panel green">
+    <div class="p-label">J Younger is the proof, not the exception</div>
+    <p>J Younger Storage will be the first company onboarded through this exact routine, once its Phase 0 stock-record work completes. The group gets to watch its own "acquisition drill" run end to end before ever needing it for a real acquisition. If onboarding J Younger takes more than the four steps above, the architecture has failed its own test, and that is the standard Campbell Consultancy is asking to be held to.</p>
+  </div>
+</div>
+
+<!-- ================= 04 BEYOND ================= -->
+<div class="section">
+  <div class="section-head">
+    <span class="sec-no">SECTION 04</span>
+    <h2>Beyond the dashboard</h2>
+  </div>
+
+  <p class="lede">The Command Centre is the foundation, not the ceiling. Once the group's data flows through one structured database, three further capabilities open up at low marginal cost.</p>
+
+  <h3>4.1 &nbsp;Operations over WhatsApp</h3>
+
+  <p>A dashboard answers questions when someone opens it. Most operational questions do not arrive at a desk. They arrive on site, in a van, or at 7am before the day starts.</p>
+
+  <p>Campbell Consultancy runs a live internal WhatsApp assistant for Fan Rescue, an existing client. Their team queries operational data and triggers routine workflows from the same chat thread they already use all day, with no new app, no login and no training beyond "message it like a colleague". It is an internal tool rather than a customer-facing one, and that is precisely the shape that fits this group.</p>
+
+  <p>Applied here: the Command Centre's data becomes queryable by message. "Cash position across the group?" "Which Arden jobs are overdue?" "Did the Hendon invoice get paid?" Each answered in seconds, from the same live database the dashboard reads, with the nightly digest delivered to WhatsApp rather than waiting to be opened.</p>
+
+  <div class="panel">
+    <div class="p-label">Why this is mentioned now</div>
+    <p>Not as a Phase 1 deliverable, but because it changes nothing about the architecture. The database and automation layer being proposed already support it. It is a bolt-on decision for later, not a design decision for now.</p>
+  </div>
+
+  <h3>4.2 &nbsp;AI agents: from reporting to acting</h3>
+
+  <p>The nightly digest described in Section 03 is AI in its most conservative role: reading structured data and writing a summary. Agents are the next step on the same foundation: software that can carry out a bounded task end to end, with rules about what it may do alone and what needs a human decision.</p>
+
+  <div class="lanes">
+    <div class="lane">
+      <h4>Internal-facing agents</h4>
+      <ul>
+        <li><strong>Credit control assistant.</strong> Watches the invoice table, flags overdue accounts, drafts chase correspondence for approval, escalates patterns worth a phone call.</li>
+        <li><strong>Anomaly watch.</strong> Flags the unusual before it is asked about: a cash dip, a stalled pipeline stage, a job overrunning its schedule.</li>
+        <li><strong>Report preparation.</strong> Assembles the monthly management pack from live data, in the group's own format, for review rather than compilation.</li>
+      </ul>
+    </div>
+    <div class="lane ext">
+      <h4>External-facing agents · later phase</h4>
+      <ul>
+        <li><strong>Enquiry triage.</strong> First response to inbound sales enquiries, gathering the details a human needs before quoting, then routing to the right person.</li>
+        <li><strong>Quote follow-up.</strong> Polite, well-timed follow-ups on outstanding quotations, handing over the moment a reply arrives.</li>
+        <li><strong>Booking and availability.</strong> For the storage business, handling routine availability and booking queries once its data foundation exists.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>The sequencing rule is deliberate: internal agents first, where mistakes are visible and cheap; external agents only once the internal ones have earned trust, and always with the human touch preserved where the group has said it matters. Agents act on structured data, which is exactly what Phases 1 and 2 create. This is the compounding return on the same foundation, not a separate project.</p>
+
+  <h3>4.3 &nbsp;Digital presence</h3>
+
+  <p>Alongside the operational work, Campbell Consultancy has experience across the group's wider digital footprint: search visibility, website user experience, content management platforms, lead generation and live AI chat on the web including WhatsApp. Initial analysis of the group's websites has already been carried out. When the time is right, Campbell Consultancy can recommend the right path to increase online visibility and, through it, client acquisition. That conversation is separate from this build and is flagged here only so the group knows the capability exists under the same roof.</p>
+</div>
+
+<!-- ================= 05 ROI ================= -->
+<div class="section">
+  <div class="section-head">
+    <span class="sec-no">SECTION 05</span>
+    <h2>Value &amp; return</h2>
+  </div>
+
+  <p class="lede">The return is measured in three currencies: recovered time at director level, decisions made on live data rather than last month's, and growth that no longer drags its own admin behind it.</p>
+
+  <h3>Where the value actually sits</h3>
+
+  <div class="roi-strip">
+    <div class="roi-cell">
+      <div class="r-k">Baseline today</div>
+      <div class="r-v">£1,500–3,000</div>
+      <div class="r-s">per month currently spent on admin and operational support across the group, before counting director time spent joining systems together.</div>
+    </div>
+    <div class="roi-cell">
+      <div class="r-k">The hidden line</div>
+      <div class="r-v">Director hours</div>
+      <div class="r-s">the most expensive hours in the group, currently spent compiling reports and chasing information rather than on sales, strategy and acquisitions.</div>
+    </div>
+    <div class="roi-cell">
+      <div class="r-k">The scaling effect</div>
+      <div class="r-v">Company four</div>
+      <div class="r-s">on the current model, each new company adds admin. On this framework, it adds a database row and copied templates. The gap between those two compounds with every acquisition.</div>
+    </div>
+  </div>
+
+  <h3>An honest framing</h3>
+
+  <p>No percentage savings figure is quoted in this document, deliberately. Numbers of that kind are only worth the data behind them, and the honest baseline measurement of hours currently spent on manual reporting and data movement is itself one of the first things the build will surface. What can be said plainly:</p>
+
+  <ul class="plain">
+    <li><strong>The recurring cost of the platform is modest.</strong> The underlying infrastructure runs on proven, low-cost tools, and the running cost is wrapped into the ongoing engagement rather than arriving as a stack of separate software bills.</li>
+    <li><strong>The savings are structural, not one-off.</strong> Manual reporting does not get faster; it gets removed. Every workflow automated in Phase 1 stays automated for every future company at near-zero marginal cost.</li>
+    <li><strong>The real return is capacity.</strong> The group's stated ambition is acquisition-led growth on a systemised playbook. The binding constraint on that ambition today is the Group Director's time. That is the asset this framework is designed to release.</li>
+  </ul>
+
+  <h3>Proposed next step</h3>
+
+  <p>If the shape of this strategy is right, the next step is a working session to agree Phase 1 scope for Extechnology Europe and Arden Environmental, confirm the Loc8 OData route, and define the Phase 0 discovery piece for J Younger's stock records. Commercial structure and pricing follow from that agreed scope, not the other way round.</p>
+
+  <div class="panel ink">
+    <div class="p-label">The standard this work is held to</div>
+    <p>Adding a company to the group should be an administrative non-event. Everything in this document is in service of that one sentence.</p>
+  </div>
+</div>
+
+</body>
+</html>
