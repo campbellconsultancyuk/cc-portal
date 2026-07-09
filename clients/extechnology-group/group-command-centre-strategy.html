@@ -3,46 +3,54 @@
 <head>
 <meta charset="utf-8">
 <title>Group Command Centre — Strategy &amp; Architecture</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   @page {
     size: A4;
-    margin: 18mm 16mm 20mm 16mm;
+    margin: 22mm 21mm 24mm 21mm;
     @bottom-left {
       content: "Campbell Consultancy · Operational AI & Automation";
-      font-family: "Inter", sans-serif; font-size: 6.5pt; color: #6B7A98;
+      font-family: "IBM Plex Mono"; font-size: 6.5pt; color: #8B93A1;
       letter-spacing: 0.06em;
     }
     @bottom-right {
       content: "Confidential · Pre-proposal · " counter(page) " / " counter(pages);
-      font-family: "Inter", sans-serif; font-size: 6.5pt; color: #6B7A98;
+      font-family: "IBM Plex Mono"; font-size: 6.5pt; color: #8B93A1;
       letter-spacing: 0.06em;
     }
   }
   :root {
-    --ink: #132450;
-    --paper: #FAFBFC;
-    --accent: #2E8B7E;
-    --slate: #6B7A98;
+    --ink: #12203A;
+    --paper: #F7F7F5;
+    --copper: #B8752F;
+    --slate: #5B6472;
     --green: #3F7A5C;
     --amber: #B8752F;
-    --line: rgba(19, 36, 80, 0.12);
-    --panel: #F4F6F9;
+    --line: #D8DAD6;
+    --panel: #EFEFEB;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  @media screen {
+    body {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 22mm 21mm;
+      background: #fff;
+      box-shadow: 0 0 24px rgba(18, 32, 58, 0.08);
+    }
+    html { background: #ECECE8; }
+    .section { padding-top: 28pt; }
+  }
   html, body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
     font-size: 9.5pt; line-height: 1.55; color: var(--ink);
     background: #fff;
   }
   /* ---------- utility ---------- */
-  .mono { font-family: "Inter", sans-serif; }
+  .mono { font-family: "IBM Plex Mono", monospace; }
   .eyebrow {
-    font-family: "Inter", sans-serif; font-weight: 600;
+    font-family: "IBM Plex Mono", monospace;
     font-size: 7pt; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 6pt;
+    color: var(--copper); margin-bottom: 6pt;
   }
   .section { page-break-before: always; }
   .section-head {
@@ -50,24 +58,24 @@
     padding-bottom: 8pt; margin-bottom: 14pt;
   }
   .section-head h2 {
-    font-family: "Inter", sans-serif;
+    font-family: "IBM Plex Serif", serif;
     font-weight: 600; font-size: 19pt; letter-spacing: -0.01em;
   }
   .section-head .sec-no {
-    font-family: "Inter", sans-serif;
+    font-family: "IBM Plex Mono", monospace;
     font-size: 8pt; color: var(--slate); letter-spacing: 0.14em;
     display: block; margin-bottom: 4pt;
   }
   p { margin-bottom: 8pt; }
   p.lede {
-    font-family: "Inter", sans-serif; font-style: italic; font-weight: 500;
+    font-family: "IBM Plex Serif", serif;
     font-size: 11.5pt; line-height: 1.6; color: var(--ink);
     margin-bottom: 12pt;
   }
   .small { font-size: 8pt; color: var(--slate); }
   /* ---------- status chips ---------- */
   .chip {
-    display: inline-block; font-family: "Inter", sans-serif;
+    display: inline-block; font-family: "IBM Plex Mono", monospace;
     font-size: 6.5pt; letter-spacing: 0.1em; text-transform: uppercase;
     padding: 1.5pt 5pt; border-radius: 2pt; vertical-align: middle;
   }
@@ -78,10 +86,13 @@
   .cover { height: 250mm; display: flex; flex-direction: column; justify-content: space-between; }
   .cover-top { }
   .logo-ph {
-    height: 34pt; width: auto; display: block; margin-bottom: 40pt;
+    width: 150pt; height: 34pt; border: 1pt dashed var(--slate);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "IBM Plex Mono", monospace; font-size: 7pt; color: var(--slate);
+    letter-spacing: 0.1em; margin-bottom: 40pt;
   }
   .cover h1 {
-    font-family: "Inter", sans-serif; font-weight: 600;
+    font-family: "IBM Plex Serif", serif; font-weight: 600;
     font-size: 30pt; line-height: 1.15; letter-spacing: -0.015em;
     margin-bottom: 14pt; max-width: 150mm;
   }
@@ -91,11 +102,11 @@
   .cover-meta {
     border-top: 1.5pt solid var(--ink); padding-top: 10pt;
     display: flex; justify-content: space-between;
-    font-family: "Inter", sans-serif; font-size: 7.5pt;
+    font-family: "IBM Plex Mono", monospace; font-size: 7.5pt;
     color: var(--slate); letter-spacing: 0.06em;
   }
   .cover-meta div { line-height: 1.9; }
-  .cover-meta .k { color: var(--accent); text-transform: uppercase; font-size: 6.5pt; letter-spacing: 0.16em; }
+  .cover-meta .k { color: var(--copper); text-transform: uppercase; font-size: 6.5pt; letter-spacing: 0.16em; }
   /* ---------- contents rail ---------- */
   .toc { margin-top: 26pt; }
   .toc-row {
@@ -103,17 +114,17 @@
     padding: 5pt 0; border-bottom: 0.5pt solid var(--line);
     font-size: 9.5pt;
   }
-  .toc-row .n { font-family: "Inter", sans-serif; font-size: 7.5pt; color: var(--accent); width: 22pt; }
+  .toc-row .n { font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; color: var(--copper); width: 22pt; }
   .toc-row .t { font-weight: 500; }
   .toc-row .d { color: var(--slate); font-size: 8pt; margin-left: auto; text-align: right; }
   /* ---------- panels ---------- */
   .panel {
-    background: var(--panel); border-left: 2.5pt solid var(--accent);
+    background: var(--panel); border-left: 2.5pt solid var(--copper);
     padding: 9pt 11pt; margin: 10pt 0; page-break-inside: avoid;
   }
   .panel .p-label {
-    font-family: "Inter", sans-serif; font-size: 6.5pt;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    font-family: "IBM Plex Mono", monospace; font-size: 6.5pt;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--copper);
     margin-bottom: 4pt;
   }
   .panel p:last-child { margin-bottom: 0; }
@@ -124,7 +135,7 @@
   /* ---------- tables ---------- */
   table { width: 100%; border-collapse: collapse; margin: 10pt 0; page-break-inside: avoid; }
   th {
-    font-family: "Inter", sans-serif; font-size: 6.5pt;
+    font-family: "IBM Plex Mono", monospace; font-size: 6.5pt;
     letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate);
     text-align: left; padding: 4pt 6pt; border-bottom: 1pt solid var(--ink);
   }
@@ -142,12 +153,12 @@
     padding: 6pt 7pt; background: #fff; margin-bottom: 5pt;
   }
   .node .n-title { font-weight: 600; font-size: 8.5pt; }
-  .node .n-sub { font-family: "Inter", sans-serif; font-size: 6.5pt; color: var(--slate); margin-top: 1pt; }
+  .node .n-sub { font-family: "IBM Plex Mono", monospace; font-size: 6.5pt; color: var(--slate); margin-top: 1pt; }
   .node.src { border-color: var(--green); background: #F3F8F5; }
   .node.pend { border-color: var(--amber); background: #FAF4EA; border-style: dashed; }
   .node.ghost { border-style: dashed; border-color: var(--slate); background: var(--panel); }
   .entity-head {
-    font-family: "Inter", sans-serif; font-size: 7pt;
+    font-family: "IBM Plex Mono", monospace; font-size: 7pt;
     letter-spacing: 0.1em; text-transform: uppercase;
     padding: 4pt 7pt; margin-bottom: 6pt; border-radius: 2pt;
     background: var(--ink); color: #fff; text-align: center;
@@ -159,24 +170,24 @@
     page-break-inside: avoid;
   }
   .layer .l-title { font-weight: 600; font-size: 10pt; }
-  .layer .l-sub { font-family: "Inter", sans-serif; font-size: 7pt; color: var(--slate); margin-top: 2pt; line-height: 1.6; }
+  .layer .l-sub { font-family: "IBM Plex Mono", monospace; font-size: 7pt; color: var(--slate); margin-top: 2pt; line-height: 1.6; }
   .layer.hub { background: var(--ink); color: #fff; }
   .layer.hub .l-sub { color: #B9C2D4; }
   .flow-arrow {
-    text-align: center; font-family: "Inter", sans-serif;
+    text-align: center; font-family: "IBM Plex Mono", monospace;
     font-size: 7pt; color: var(--slate); padding: 2pt 0;
   }
   /* ---------- two-lane agents ---------- */
   .lanes { display: flex; gap: 8pt; margin: 10pt 0; page-break-inside: avoid; }
   .lane { flex: 1; border: 0.75pt solid var(--line); border-top: 2.5pt solid var(--ink); padding: 9pt 11pt; background: #fff; }
-  .lane.ext { border-top-color: var(--accent); }
+  .lane.ext { border-top-color: var(--copper); }
   .lane h4 { font-size: 9.5pt; margin-bottom: 5pt; }
   .lane ul { margin: 0 0 0 11pt; }
   .lane li { font-size: 8.5pt; margin-bottom: 4pt; }
   ul.plain { margin: 6pt 0 10pt 12pt; }
   ul.plain li { margin-bottom: 5pt; }
   h3 {
-    font-family: "Inter", sans-serif; font-weight: 600;
+    font-family: "IBM Plex Serif", serif; font-weight: 600;
     font-size: 12.5pt; margin: 14pt 0 7pt 0;
   }
   /* ---------- schema diagram ---------- */
@@ -186,7 +197,7 @@
     background: #fff; page-break-inside: avoid; overflow: hidden;
   }
   .stable .st-head {
-    font-family: "Inter", sans-serif; font-size: 7pt; font-weight: 600;
+    font-family: "IBM Plex Mono", monospace; font-size: 7pt; font-weight: 600;
     letter-spacing: 0.1em; text-transform: uppercase;
     padding: 4pt 7pt; background: var(--ink); color: #fff;
   }
@@ -194,28 +205,28 @@
   .stable .st-row {
     display: flex; justify-content: space-between;
     padding: 2.5pt 7pt; border-bottom: 0.5pt solid var(--line);
-    font-family: "Inter", sans-serif; font-size: 6.5pt;
+    font-family: "IBM Plex Mono", monospace; font-size: 6.5pt;
   }
   .stable .st-row:last-child { border-bottom: none; }
   .stable .st-row .f { color: var(--ink); }
   .stable .st-row .ty { color: var(--slate); }
   .stable .st-row.key .f { font-weight: 700; }
-  .stable .st-row.key .ty { color: var(--accent); font-weight: 600; }
+  .stable .st-row.key .ty { color: var(--copper); font-weight: 600; }
   /* ---------- scenario flows ---------- */
   .scenario { margin: 0 0 11pt 0; page-break-inside: avoid; }
   .sc-title {
-    font-family: "Inter", sans-serif; font-size: 7.5pt; font-weight: 600;
+    font-family: "IBM Plex Mono", monospace; font-size: 7.5pt; font-weight: 600;
     letter-spacing: 0.08em; color: var(--ink);
     border-bottom: 0.75pt solid var(--ink); padding-bottom: 3pt; margin-bottom: 6pt;
   }
-  .sc-title .sc-no { color: var(--accent); margin-right: 6pt; }
+  .sc-title .sc-no { color: var(--copper); margin-right: 6pt; }
   .sc-flow { display: flex; align-items: stretch; gap: 0; }
   .sc-node {
     flex: 1; border: 1pt solid var(--ink); border-radius: 3pt;
     padding: 5pt 7pt; background: #fff;
   }
   .sc-node .n-title { font-weight: 600; font-size: 8pt; }
-  .sc-node .n-sub { font-family: "Inter", sans-serif; font-size: 6pt; color: var(--slate); margin-top: 1pt; line-height: 1.5; }
+  .sc-node .n-sub { font-family: "IBM Plex Mono", monospace; font-size: 6pt; color: var(--slate); margin-top: 1pt; line-height: 1.5; }
   .sc-node.src { border-color: var(--green); background: #F3F8F5; }
   .sc-node.pend { border-color: var(--amber); background: #FAF4EA; border-style: dashed; }
   .sc-node.sched { border-color: var(--slate); background: var(--panel); }
@@ -223,25 +234,25 @@
   .sc-node.hubn .n-sub { color: #B9C2D4; }
   .sc-link {
     width: 44pt; display: flex; align-items: center; justify-content: center;
-    font-family: "Inter", sans-serif; font-size: 5.5pt; color: var(--slate);
+    font-family: "IBM Plex Mono", monospace; font-size: 5.5pt; color: var(--slate);
     letter-spacing: 0.04em;
   }
   .sc-fields {
-    font-family: "Inter", sans-serif; font-size: 6pt; color: var(--slate);
+    font-family: "IBM Plex Mono", monospace; font-size: 6pt; color: var(--slate);
     background: var(--panel); padding: 3.5pt 7pt; margin-top: 4pt; border-radius: 2pt;
     line-height: 1.5;
   }
   .sc-fields b { color: var(--ink); font-weight: 600; }
   .sc-note {
-    font-family: "Inter", sans-serif; font-size: 6pt;
+    font-family: "IBM Plex Mono", monospace; font-size: 6pt;
     padding: 3.5pt 7pt; margin-top: 3pt; border-radius: 2pt; line-height: 1.5;
   }
   .sc-note.ok { background: #E4EEE8; color: var(--green); }
   .sc-note.pd { background: #F5EADB; color: var(--amber); }
   .roi-strip { display: flex; gap: 8pt; margin: 12pt 0; page-break-inside: avoid; }
   .roi-cell { flex: 1; border: 0.75pt solid var(--line); padding: 9pt 10pt; }
-  .roi-cell .r-k { font-family: "Inter", sans-serif; font-size: 6.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-bottom: 4pt; }
-  .roi-cell .r-v { font-family: "Inter", sans-serif; font-weight: 600; font-size: 14pt; }
+  .roi-cell .r-k { font-family: "IBM Plex Mono", monospace; font-size: 6.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); margin-bottom: 4pt; }
+  .roi-cell .r-v { font-family: "IBM Plex Serif", serif; font-weight: 600; font-size: 14pt; }
   .roi-cell .r-s { font-size: 7.5pt; color: var(--slate); margin-top: 2pt; line-height: 1.45; }
 </style>
 </head>
@@ -250,7 +261,7 @@
 <!-- ================= COVER ================= -->
 <div class="cover">
   <div class="cover-top">
-    <img class="logo-ph" src="https://campbellconsultancy.co/brand/Campbell_Consultancy_Logo_Pack/02_Horizontal/PNG_WhiteBG/horizontal-gradient-on-white-512px.png" alt="Campbell Consultancy">
+    <div class="logo-ph">[ CAMPBELL CONSULTANCY LOGO ]</div>
     <div class="eyebrow">Strategy &amp; Architecture · Pre-proposal</div>
     <h1>Group Command Centre</h1>
     <p class="sub">A strategy for connecting the group's existing systems into a single real-time management platform, designed so that adding the next company is an administrative non-event.</p>
