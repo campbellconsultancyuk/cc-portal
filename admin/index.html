@@ -22,8 +22,8 @@
   <h1>Client <em>Dashboard</em></h1>
   <p class="subtitle">All clients, all documents — master view.</p>
   <div class="hero-meta">
-    <div class="hero-stat"><div class="n">5</div><div class="l">Clients</div></div>
-    <div class="hero-stat"><div class="n">7</div><div class="l">Documents</div></div>
+    <div class="hero-stat"><div class="n">4</div><div class="l">Clients</div></div>
+    <div class="hero-stat"><div class="n">5</div><div class="l">Documents</div></div>
     <div class="hero-stat"><div class="n" id="admin-date"></div><div class="l">Today</div></div>
   </div>
 </div>
@@ -45,16 +45,6 @@
         <span class="count-pill">2 reports</span>
         <span class="count-pill">1 proposal</span>
         <span class="count-pill" id="admin-fr-agreements">-</span>
-      </div>
-    </a>
-
-    <a class="client-card fade-up" href="../clients/roots-and-seeds/index.html" style="animation-delay:0.10s;">
-      <div class="client-card-name">Roots &amp; Seeds</div>
-      <div class="client-card-sector">Hospitality</div>
-      <div class="client-card-counts">
-        <span class="count-pill">1 report</span>
-        <span class="count-pill">1 proposal</span>
-        <span class="count-pill" id="admin-rs-agreements">-</span>
       </div>
     </a>
 
@@ -97,7 +87,6 @@
   });
   // Load agreement counts for each client (admin sees all statuses)
   updateAgreementCount('admin-fr-agreements', 'fan-rescue', true);
-  updateAgreementCount('admin-rs-agreements', 'roots-and-seeds', true);
   updateAgreementCount('admin-hero-agreements', 'hero', true);
   updateAgreementCount('admin-ck-agreements', 'castaway-kitchen', true);
   updateAgreementCount('admin-eg-agreements', 'extechnology-group', true);
