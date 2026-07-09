@@ -30,9 +30,9 @@ function injectTopbar({ root = '/', section = '', sectionHref = '', pageTitle = 
   }
 
   el.innerHTML = `
-    <a href="${root}portal.html" style="display:flex;align-items:center;">
+    <div style="display:flex;align-items:center;">
       <img src="${LOGO_LIGHT}" alt="Campbell Consultancy" class="topbar-logo">
-    </a>
+    </div>
     <nav class="topbar-nav">${crumbs}</nav>
   `;
 }
