@@ -22,7 +22,7 @@
   <h1>Client <em>Dashboard</em></h1>
   <p class="subtitle">All clients, all documents — master view.</p>
   <div class="hero-meta">
-    <div class="hero-stat"><div class="n">4</div><div class="l">Clients</div></div>
+    <div class="hero-stat"><div class="n">5</div><div class="l">Clients</div></div>
     <div class="hero-stat"><div class="n">7</div><div class="l">Documents</div></div>
     <div class="hero-stat"><div class="n" id="admin-date"></div><div class="l">Today</div></div>
   </div>
@@ -75,6 +75,14 @@
       </div>
     </a>
 
+    <a class="client-card fade-up" href="../clients/extechnology-group/index.html" style="animation-delay:0.25s;">
+      <div class="client-card-name">Extechnology / Arden / J Younger</div>
+      <div class="client-card-sector">Multi-Entity Group — Operations &amp; Storage</div>
+      <div class="client-card-counts">
+        <span class="count-pill" id="admin-eg-agreements">-</span>
+      </div>
+    </a>
+
   </div>
 
 </main>
@@ -92,6 +100,7 @@
   updateAgreementCount('admin-rs-agreements', 'roots-and-seeds', true);
   updateAgreementCount('admin-hero-agreements', 'hero', true);
   updateAgreementCount('admin-ck-agreements', 'castaway-kitchen', true);
+  updateAgreementCount('admin-eg-agreements', 'extechnology-group', true);
 </script>
 </body>
 </html>
