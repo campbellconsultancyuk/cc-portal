@@ -22,8 +22,8 @@
   <h1>Client <em>Dashboard</em></h1>
   <p class="subtitle">All clients, all documents — master view.</p>
   <div class="hero-meta">
-   <div class="hero-stat"><div class="n">4</div><div class="l">Clients</div></div>
-    <div class="hero-stat"><div class="n">4</div><div class="l">Documents</div></div>
+   <div class="hero-stat"><div class="n">5</div><div class="l">Clients</div></div>
+    <div class="hero-stat"><div class="n">5</div><div class="l">Documents</div></div>
     <div class="hero-stat"><div class="n" id="admin-date"></div><div class="l">Today</div></div>
   </div>
 </div>
@@ -73,6 +73,15 @@
       </div>
     </a>
 
+    <a class="client-card fade-up" href="../clients/archetype-studio/index.html" style="animation-delay:0.35s;">
+      <div class="client-card-name">Archetype Studio</div>
+      <div class="client-card-sector">Design Studio</div>
+      <div class="client-card-counts">
+        <span class="count-pill">1 design</span>
+        <span class="count-pill" id="admin-as-agreements">-</span>
+      </div>
+    </a>
+
   </div>
 
 </main>
@@ -90,6 +99,7 @@
   updateAgreementCount('admin-ck-agreements', 'castaway-kitchen', true);
   updateAgreementCount('admin-eg-agreements', 'extechnology-group', true);
   updateAgreementCount('admin-mu-agreements', 'meri-uk', true);
+  updateAgreementCount('admin-as-agreements', 'archetype-studio', true);
 </script>
 </body>
 </html>
