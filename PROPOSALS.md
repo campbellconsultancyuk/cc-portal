@@ -5,7 +5,7 @@ login-protected link rather than a loose file.
 
 ## 1. Publish
 
-1. Create `clients/<client-slug>/` (copy `clients/global-language/index.html` as the client page).
+1. Create `clients/<client-slug>/` (copy `clients/global-languages/index.html` as the client page).
 2. Add the proposal as `clients/<client-slug>/<topic>-proposal.html`, using an existing
    proposal page as the template (house style: cover, contents, numbered sections, side nav).
 3. Add a client card to `admin/index.html` and update the hero counts.
